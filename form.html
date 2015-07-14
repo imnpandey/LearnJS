@@ -82,13 +82,49 @@
 }
 </style>
 <script type="text/javascript">
-
+function funcSir(data){
+    var opt0 = document.getElementById('loji').options[0];
+    var opt1 = document.getElementById('loji').options[1]; 
+    switch(data) {
+        case "UAT3":
+                opt0.value =  'P';
+                opt0.text = 'P';  
+                opt1.value =  'E';
+                opt1.text = 'E';
+            break;
+        case "UAT2":
+                opt0.value =  'A';
+                opt0.text = 'A';  
+                opt1.value =  'B';
+                opt1.text = 'B';
+            break;  
+        case "UAT4":
+                opt0.value =  'X';
+                opt0.text = 'X';  
+                opt1.value =  'Y';
+                opt1.text = 'Y';
+             break;
+     }
+}
       
 
 </script>
 <div class="form-style-2">
 <div class="form-style-2-heading">Provide your information</div>
 <form action="" method="post">
+    <label for="field4"><span>Regarding</span>
+        <select name="field4" class="select-field"  onchange="funcSir(this.value);">
+            <option value="UAT3">UAT3</option>
+            <option value="UAT2">UAT2</option>
+            <option value="UAT4">UAT4</option>
+        </select>
+    </label>
+    <label for="field4"><span>LOL</span>
+        <select name="field4" id="loji" class="select-field">
+            <option value="P">P</option>
+            <option value="E">E</option>
+        </select>
+    </label>
     <label><span>Region UAT4/UAT6 <span class="required">*</span></span>
         <input type="text" class="input-field" name="region"/>
     </label>
