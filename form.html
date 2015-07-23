@@ -138,3 +138,166 @@ function funcSir(data){
     </label>
 </form>
 </div>
+
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
+import java.io.*;
+import java.util.*;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
+
+
+public String getTagValue(String rootTag)
+{   
+    
+    //String fileName = projPath + "\\Reports\\XML Responses\\responseArrangementMatchInvolvedPartySearchService_"+actTraceId+".xml";
+    String fileName ="C:\\Users\\o627614\\Desktop\\demo.xml";
+    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    String abc = "";
+    //Using factory get an instance of document builder
+    DocumentBuilder db = dbf.newDocumentBuilder();  
+    Document dom = db.parse(fileName);
+
+    Element elem1 = dom.getDocumentElement();
+    NodeList innerList1;
+    innerList1 = elem1.getElementsByTagName("*");
+    for(int k=0; k<innerList1.getLength(); k++){   
+        Element val1 = (Element)innerList1.item(k);
+        String line1 = val1.getNodeName();
+        if(line1.contains(rootTag)){
+            rootTag1 = line1;
+            break;
+        }
+    }
+
+    Element elem = dom.getDocumentElement();
+    NodeList newNode;
+    newNode = elem.getElementsByTagName(rootTag1);
+
+        String line = "";
+
+        for(mainCount=0; mainCount<newNode.getLength(); mainCount++){            
+            textVal = "";
+            Element el = (Element)newNode.item(mainCount);
+            NodeList innerList = el.getElementsByTagName("*");
+
+            for(int k=0;k<innerList.getLength();k++){ 
+                Element val = (Element)innerList.item(k);
+                line = line + val.getNodeName() + ",";      
+                
+            }
+                line = line.substring(0, line.length()-1) + "\n";
+        }
+
+    int max = 0;
+ /*   lineArr = line.split("\n");
+    for(i = 0; i < lineArr.length; i++){
+        lineArrLen = lineArr[i].split(",");
+            if(lineArrLen.length > max){
+                max = lineArrLen.length;
+            }
+    }*/
+
+line1 = line.replaceAll("\n", ",");
+lineArr1 = line1.split(",");
+max = lineArr1.length;
+
+
+    String finalString = "";
+    String[] lineArrSub0 = new String[max+1];
+    String[] lineArrSub1 = new String[max+1];
+
+lineArr = line.split("\n");
+    comma = "";
+   /* lineArrSub0 = lineArr[0].split(",");
+
+    if(lineArrSub0.length != max){
+        len = max - lineArrSub0.length;
+            for(z = 0; z < len; z++){
+                comma = comma + ",";
+            }
+        lineArr[0] = lineArr[0] ;
+    }
+*/
+    lineArrSub0 = lineArr[0].split(",");
+    // return lineArrSub0.length.toString();
+        for(i = 0; i < lineArr.length; i++){
+                /*lineArrSub1 = lineArr[i].split(",");
+
+                  if(lineArrSub1.length != max){
+                        len = max - lineArrSub1.length;
+                        for(z = 0; z < len; z++){
+                            comma = comma + ",";
+                        }
+                        lineArr[i] = comma + lineArr[i];
+                  }*/
+
+                lineArrSub1 = lineArr[i].split(",");
+                int k = 0;
+//return max + "," + lineArrSub0.length + "," + lineArrSub1.length;
+                    for(j = 0; j < lineArrSub1.length; j++){
+                       
+                            it1 = j;
+                            it2 = j;
+                        
+try{
+                        /*if(lineArrSub0[it1].equals(lineArrSub1[it2])){
+                               finalString = finalString + lineArrSub0[it1] + ",";
+                        }else{
+
+                               k = j + 1;
+                                if(lineArrSub0[k].equals(lineArrSub1[it2])){
+                                    finalString = finalString + lineArrSub0[it1] + "," + lineArrSub0[k] + ",";                                   
+                                    j++;
+                                    it1 = j;
+                                }else if(lineArrSub0[it1].equals(lineArrSub1[k])){
+                                    finalString = finalString + lineArrSub1[it2] + "," + lineArrSub1[k] + ",";                                    
+                                    j++;
+                                    it2 = j;
+                                }
+                        }*/
+                            if(lineArrSub0[it1].equals(lineArrSub1[it2])){
+                                   finalString = finalString + lineArrSub0[j] + ",";
+                            }else{     
+                                   k = j + 1;
+                                    if(lineArrSub0[k].equals(lineArrSub1[l])){
+                                        while(k != j){
+                                            finalString = finalString + lineArrSub0[l] + ",";   
+                                            j++;
+                                        }
+                                    }else{
+                                        k = l + 1;
+                                         if(lineArrSub0[j].equals(lineArrSub1[k])){
+                                            while(k != l){
+                                                finalString = finalString + lineArrSub1[j] + ",";                                    
+                                                l++;
+                                             }
+                                          }          
+                                    }
+                            }
+}catch(Exception e){
+    return k + "," +it1 + "," +it2;
+}
+                    }
+            
+            if(lineArr.length != i+1){
+                  lineArrSub0 = finalString.split(","); 
+                  finalString = "";
+            }
+
+    }
+    return finalString;
+}
+
+objectReferenceWs = getTagValue(":hasInvolvedPartySummary");
+return objectReferenceWs;
+
